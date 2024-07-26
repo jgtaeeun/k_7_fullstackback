@@ -27,5 +27,20 @@ public class BoardService {
 		return board;
 	}
 	
-	
+	public Board updateBoard(Board board) {
+		 Board existingBoard = boardRepo.findById(board.getId())
+                 .orElseThrow(() -> new IllegalArgumentException("Board not found"));
+
+		 existingBoard.setContent(board.getContent());
+		 existingBoard.setTitle(board.getTitle());
+		 existingBoard.setWriter(board.getWriter());
+
+		 return boardRepo.save(existingBoard);
+	}
+
+    public void deleteBoard(Long id) {
+        Board existingBoard = boardRepo.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Board not found"));
+        boardRepo.delete(existingBoard);
+    }
 }
